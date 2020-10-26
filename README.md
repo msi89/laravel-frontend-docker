@@ -27,19 +27,19 @@ cd src && cp .env.example .env
 #### generate key
 
 ```bash
-docker-compose run --rm artisan key:generate
+docker-compose run --rm www php artisan key:generate
 ```
 
 #### migrate database
 
 ```bash
-docker-compose run --rm artisan migrate
+docker-compose run --rm www php artisan migrate
 ```
 
 #### run project
 
 ```bash
- docker-compose up -d backend
+ docker-compose up -d nginx
 ```
 
 remove flag `-d` if want to show logs
@@ -61,7 +61,7 @@ docker-compose up -d redis
 add `GLIDE_KEY` in `.env` and generate key value using below command
 
 ```bash
-docker-compose run --rm php openssl rand -base64 64
+docker-compose run --rm www openssl rand -base64 64
 ```
 
 #### Background jobs
