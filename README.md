@@ -4,7 +4,7 @@
 cd src && git clone https://github.com/laravel/laravel.git
 ```
 
-### 1. Laravel
+### 1. Backend: Laravel
 
 #### build project containers
 
@@ -84,8 +84,8 @@ docker-compose run --rm www php artisan queue:work --tries=3
 docker-compose run --rm  db psql marketplace05ru admin05ru # postgres console
 ```
 
-### 2. Vue/React
+### 2. FRONTEND: Vue/React
 
 ```bash
-docker-compose run --rm  vue yarn install # replace `vue` by `react` if you to use react
+docker-compose run --rm  frontend yarn install
 ```
