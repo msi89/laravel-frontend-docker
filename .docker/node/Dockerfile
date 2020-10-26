@@ -4,9 +4,9 @@ ARG API_URL
 ENV VUE_APP_API_URL ${API_URL}
 
 
-WORKDIR /var/www/vue
+WORKDIR /var/www/node
 
-COPY ./vue /var/www/vue
+COPY ./frontend /var/www/node
 
 RUN npm install -g yarn
 

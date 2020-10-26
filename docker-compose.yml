@@ -24,7 +24,7 @@ services:
     environment:
       - VIRTUAL_HOST=localhost
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./backend:/var/www/html:delegated
     depends_on:
       - www
       - db
@@ -34,7 +34,7 @@ services:
   www: #Laravel application
     build:
       context: .
-      dockerfile: .docker/www/Dockerfile
+      dockerfile: .docker/fpm/Dockerfile
     environment:
       - APP_URL=localhost
       - DB_CONNECTION=pgsql
@@ -46,7 +46,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./backend:/var/www/html:delegated
     ports:
       - "9002:9000"
     networks:
@@ -78,21 +78,21 @@ services:
     networks:
       - laravel
 
-  vue:
+  frontend:
     build:
       context: .
-      dockerfile: .docker/vue/Dockerfile
+      dockerfile: .docker/node/Dockerfile
       args:
         - API_URL=http://localhost:88/api
     restart: unless-stopped
     tty: true
     environment:
-      - VIRTUAL_HOST=vue.localhost
+      - VIRTUAL_HOST=frontend.localhost
     ports:
       #   - 89:80 # for production mode
       - 90:8080 # for development mode
     volumes:
-      - ./vue:/var/www/vue:delegated
+      - ./frontend:/var/www/node:delegated
     depends_on:
       - www
     networks:

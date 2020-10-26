@@ -22,7 +22,7 @@ services:
     ports:
       - "88:80"
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./backend:/var/www/html:delegated
     depends_on:
       - www
       - db
@@ -44,7 +44,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./backend:/var/www/html:delegated
     ports:
       - "9002:9000"
     networks:
@@ -75,10 +75,10 @@ services:
     networks:
       - laravel
 
-  vue:
+  frontend:
     build:
       context: .
-      dockerfile: .docker/vue/prod.Dockerfile
+      dockerfile: .docker/node/prod.Dockerfile
       args:
         - API_URL=http://localhost:88/api
     restart: unless-stopped
@@ -86,7 +86,7 @@ services:
     ports:
       - 89:80
     volumes:
-      - ./vue:/var/www/vue:delegated
+      - ./frontend:/var/www/node:delegated
     depends_on:
       - www
     networks:

@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 
-ADD ./.docker/www/php.conf /usr/local/etc/php-fpm.d/www.conf
+ADD ./.docker/fpm/php.conf /usr/local/etc/php-fpm.d/www.conf
 
 
 RUN groupadd -g 1000 admin05ru
@@ -53,7 +53,7 @@ RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
 
 # Custom php.ini config
-COPY ./.docker/www/php.ini /usr/local/etc/php/php.ini
+COPY ./.docker/fpm/php.ini /usr/local/etc/php/php.ini
 
 # Composer installation
 ENV COMPOSER_ALLOW_SUPERUSER 1
