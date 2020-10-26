@@ -5,7 +5,8 @@ ADD ./.docker/fpm/php.conf /usr/local/etc/php-fpm.d/www.conf
 
 
 RUN groupadd -g 1000 admin05ru
-RUN useradd -d /var/www/html -s /bin/bash -u 1000 -g 1000 admin05ru
+# RUN useradd -d /var/www/html -s /bin/bash -u 1000 -g 1000 admin05ru
+RUN useradd -G admin05ru -g admin05ru -s /bin/sh -D admin05ru
 RUN mkdir -p /var/www/html
 RUN chown -R admin05ru:admin05ru /var/www/html
 

@@ -8,12 +8,15 @@ services:
     image: postgres:12
     restart: unless-stopped
     environment:
+      - POSTGRES_DB=marketplace
       - POSTGRES_USER=admin05dev
       - POSTGRES_PASSWORD=admin05dev
     volumes:
       - db-data:/var/lib/postgresql/data/
     ports:
-      - 54322:5432
+      - 5435:5432
+    networks:
+      - laravel
 
   nginx: # SERVER NGINX FOR LARAVEL
     build:
@@ -35,14 +38,6 @@ services:
     build:
       context: .
       dockerfile: .docker/fpm/Dockerfile
-    environment:
-      - APP_URL=localhost
-      - DB_CONNECTION=pgsql
-      - DB_DATABASE=marketplace
-      - DB_USERNAME=admin05dev
-      - DB_PASSWORD=admin05dev
-      - DB_HOST=db
-      - DB_PORT=5432
     depends_on:
       - db
     volumes:

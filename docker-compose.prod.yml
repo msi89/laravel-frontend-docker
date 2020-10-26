@@ -8,6 +8,7 @@ services:
     image: postgres:12
     restart: unless-stopped
     environment:
+      - POSTGRES_DB=marketplace
       - POSTGRES_USER=admin05dev
       - POSTGRES_PASSWORD=admin05dev
     volumes:
