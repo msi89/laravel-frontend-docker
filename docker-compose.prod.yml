@@ -1,0 +1,98 @@
+version: "3.7"
+
+networks:
+  laravel:
+
+services:
+  db: #posgreSql database
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=admin05dev
+      - POSTGRES_PASSWORD=admin05dev
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    ports:
+      - 54322:5432
+
+  nginx: # SERVER NGINX FOR LARAVEL
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    ports:
+      - "88:80"
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - www
+      - db
+    networks:
+      - laravel
+
+  www: #Laravel application
+    build:
+      context: .
+      dockerfile: .docker/www/Dockerfile
+    environment:
+      - APP_URL=localhost
+      - DB_CONNECTION=pgsql
+      - DB_DATABASE=marketplace
+      - DB_USERNAME=admin05dev
+      - DB_PASSWORD=admin05dev
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+    volumes:
+      - ./src:/var/www/html:delegated
+    ports:
+      - "9002:9000"
+    networks:
+      - laravel
+
+  pgadmin: # PGADMIN
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@05.dev
+      - PGADMIN_DEFAULT_PASSWORD=admin05ru
+    depends_on:
+      - db
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - 5080:80
+    networks:
+      - laravel
+
+  redis: # REDIS
+    image: "redis:alpine"
+    command: redis-server --requirepass admin05ru
+    ports:
+      - "63793:6379"
+    restart: always
+    volumes:
+      - redis-data:/var/lib/redis
+    networks:
+      - laravel
+
+  vue:
+    build:
+      context: .
+      dockerfile: .docker/vue/prod.Dockerfile
+      args:
+        - API_URL=http://localhost:88/api
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 89:80
+    volumes:
+      - ./vue:/var/www/vue:delegated
+    depends_on:
+      - www
+    networks:
+      - laravel
+
+volumes:
+  db-data:
+  pgadmin-data:
+  redis-data:
