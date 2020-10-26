@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
+    libonig-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -51,6 +52,10 @@ RUN docker-php-ext-install bcmath
 RUN apt-get install -y zlib1g-dev libicu-dev g++
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
+
+# Others dependencies
+RUN docker-php-ext-install mbstring exif
+
 
 # Custom php.ini config
 COPY ./.docker/fpm/php.ini /usr/local/etc/php/php.ini
