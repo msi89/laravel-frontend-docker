@@ -8,9 +8,9 @@ services:
     image: postgres:12
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=marketplace
-      - POSTGRES_USER=admin05dev
-      - POSTGRES_PASSWORD=admin05dev
+      - POSTGRES_DB=test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=secret
     volumes:
       - db-data:/var/lib/postgresql/data/
     ports:
@@ -37,9 +37,9 @@ services:
     environment:
       - APP_URL=localhost
       - DB_CONNECTION=pgsql
-      - DB_DATABASE=marketplace
-      - DB_USERNAME=admin05dev
-      - DB_PASSWORD=admin05dev
+      - DB_DATABASE=test
+      - DB_USERNAME=test
+      - DB_PASSWORD=secret
       - DB_HOST=db
       - DB_PORT=5432
     depends_on:
@@ -54,8 +54,8 @@ services:
   pgadmin: # PGADMIN
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@05.dev
-      - PGADMIN_DEFAULT_PASSWORD=admin05ru
+      - PGADMIN_DEFAULT_EMAIL=admin@test.dev
+      - PGADMIN_DEFAULT_PASSWORD=secret
     depends_on:
       - db
     volumes:
@@ -67,7 +67,7 @@ services:
 
   redis: # REDIS
     image: "redis:alpine"
-    command: redis-server --requirepass admin05ru
+    command: redis-server --requirepass secret
     ports:
       - "63793:6379"
     restart: always
