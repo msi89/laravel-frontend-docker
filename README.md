@@ -81,7 +81,7 @@ docker-compose run --rm www php artisan queue:work --tries=3
 #### Database console management
 
 ```bash
-docker-compose run --rm  db psql marketplace05ru admin05ru # postgres console
+docker-compose run --rm  db psql test test # postgres console
 ```
 
 ### 2. FRONTEND: Vue/React
